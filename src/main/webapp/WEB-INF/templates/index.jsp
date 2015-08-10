@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath"
+<c:set var="ctxPath"
        value="${pageContext.request.servletContext.contextPath}"
        scope="request"/>
 
@@ -9,16 +9,21 @@
       ng-app="weatherApp">
     <head>
         <meta charset="UTF-8" />
-        <link href="${contextPath}/resources/style/site.css" rel="stylesheet" type="text/css"/>
+        <link href="${ctxPath}/resources/style/site.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript">
             window.appConfig = {
-                contextPath = ${contextPath};
+                contextPath = ${ctxPath};
             };
         </script>
-        <script src="${contextPath}/resources/js/vendor/angular-1.4.1/angular.js" type="text/javascript"></script>
+        <script src="${ctxPath}/resources/js/vendor/angular-1.4.1/angular.js" type="text/javascript"></script>
         <title>Weather Statistics</title>
     </head>
     <body>
         <h1>Weather statistics</h1>
+        <p>${testMessage}</p>
+        <div ng-init="angularTestMessage = 'Angular JS works.'">
+            {{angularTestMessage}}
+        </div>
+        <script src="${ctxPath}/resources/js/app/application.js" type="text/javascript"></script>
     </body>
 </html>
