@@ -16,17 +16,9 @@
             };
         </script>
         <script src="${ctxPath}/resources/js/vendor/angular-1.4.1/angular.js" type="text/javascript"></script>
-        <title>Weather Statistics</title>
+        <title>Weather Statistics. Administrators</title>
     </head>
     <body>
-        <h1>Weather statistics</h1>
-        <p>${testMessage}</p>
-        <div ng-init="angularTestMessage = 'Angular JS works.'">
-            {{angularTestMessage}}
-        </div>
-        <c:forEach var="day" items="${statistics}">
-            <div>- ${day}</div>
-        </c:forEach>
-        <script src="${ctxPath}/resources/js/app/application.js" type="text/javascript"></script>
+        <h1>Administrator panel</h1>
     </body>
 </html>
