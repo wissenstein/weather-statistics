@@ -25,23 +25,23 @@
             <form ng-submit="saveDay()" method="POST">
                 <div>
                     <label for="year"><fmt:message key="year"/>:</label>
-                    <input type="number" name="year"/>
+                    <input type="number" name="year" ng-model="day.date.year"/>
                     <label for="month"><fmt:message key="month"/>:</label>
-                    <input type="number" name="month"/>
+                    <input type="number" name="month" ng-model="day.date.month"/>
                     <label for="day"><fmt:message key="day"/>:</label>
-                    <input type="number" name="day"/>
+                    <input type="number" name="day" ng-model="day.date.day"/>
                 </div>
                 <div>
                     <div><fmt:message key="temperature"/></div>
                     <div>
                         <label for="morning"><fmt:message key="atNight"/>:</label>
-                        <input type="number" name="night"/>
+                        <input type="number" name="night" ng-model="day.nightTemperature" />
                         <label for="morning"><fmt:message key="inMorning"/>:</label>
-                        <input type="number" name="morning"/>
+                        <input type="number" name="morning" ng-model="day.morningTemperature" />
                         <label for="morning"><fmt:message key="atMidday"/>:</label>
-                        <input type="number" name="midday"/>
+                        <input type="number" name="midday" ng-model="day.dayTemperature" />
                         <label for="morning"><fmt:message key="inEvening"/>:</label>
-                        <input type="number" name="enening"/>
+                        <input type="number" name="enening" ng-model="day.eveningTemperature" />
                     </div>
                 </div>
                 <div>

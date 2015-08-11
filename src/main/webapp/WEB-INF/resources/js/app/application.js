@@ -10,13 +10,18 @@
                 $http,
                 CTX_PATH) {
 
+            $scope.day = {};
+
             $scope.saveDay = function () {
-                $http.post(CTX_PATH + "/admin/save-day", {test: "data"})
+
+                $http.post(
+                        CTX_PATH + "/admin/save-day",
+                        $scope.day)
                 .success(function (data) {
-                    alert("success! " + data);
+                    $scope.message = "success! " + data;
                 })
                 .error(function (error) {
-                    alert("error! " + error);
+                    $scope.message = "error! " + error;
                 });
             };
         }
