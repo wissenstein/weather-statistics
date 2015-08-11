@@ -12,7 +12,7 @@
         <link href="${ctxPath}/resources/style/site.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript">
             window.appConfig = {
-                contextPath = ${ctxPath};
+                contextPath: "${ctxPath}"
             };
         </script>
         <script src="${ctxPath}/resources/js/vendor/angular-1.4.1/angular.js" type="text/javascript"></script>
