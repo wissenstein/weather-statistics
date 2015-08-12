@@ -10,10 +10,16 @@
                 $http,
                 CTX_PATH) {
 
-            $scope.day = {};
+            $scope.day = {date:null};
+            $scope.tmp = {};
 
             $scope.saveDay = function () {
-
+                var dateString = $scope.tmp.dateString;
+                $scope.day.date = {
+                    year: Number(dateString.substring(0, 4)),
+                    month: Number(dateString.substring(5, 7)),
+                    day: Number(dateString.substring(8, 10))
+                };
                 $http.post(
                         CTX_PATH + "/admin/save-day",
                         $scope.day)

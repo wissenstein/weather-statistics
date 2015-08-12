@@ -1,11 +1,11 @@
 package com.wissenstein.weatherstatistics.util;
 
 /**
- * Simple custom class representing date which is not bound to any time zone
+ * Simplistic custom class representing date which is not bound to any time zone
  *
  * @author Oleksij Lupandin
  */
-public class Date {
+public class Date implements Comparable<Date> {
 
     private int year;
     private int month;
@@ -42,6 +42,25 @@ public class Date {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    @Override
+    public int compareTo(Date other) {
+        if (this.year < other.year) {
+            return -1;
+        } else if (this.year > other.year) {
+            return 1;
+        } else if (this.month < other.month) {
+            return -1;
+        } else if (this.month > other.month) {
+            return 1;
+        } else if (this.day > other.day) {
+            return 1;
+        } else if (this.day < other.day) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
