@@ -1,10 +1,14 @@
 package com.wissenstein.weatherstatistics.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Simplistic custom class representing date which is not bound to any time zone
  *
  * @author Oleksij Lupandin
  */
+// TODO add means to hold month and day numbers in legal limits
 public class Date implements Comparable<Date> {
 
     private int year;
@@ -18,6 +22,29 @@ public class Date implements Comparable<Date> {
         this.year = year;
         this.month = month;
         this.day = day;
+    }
+
+    /**
+     * Parses string in format "yyyy-MM-dd" to a Date object.
+     * Does not recognize illegal month and day numbers yet.
+     *
+     * @param dateString
+     * @return
+     */
+    // TODO Add means to recognize legal limits for month and day numbers.
+    public static Date parse(String dateString) {
+        Pattern datePattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+        Matcher matcher = datePattern.matcher(dateString);
+        if (matcher.find()) {
+        final int year = Integer.parseInt(dateString.substring(0, 4));
+        final int month = Integer.parseInt(dateString.substring(5, 7));
+        final int day = Integer.parseInt(dateString.substring(8, 10));
+
+        return new Date(year, month, day);
+        } else {
+            throw new IllegalArgumentException("Expression \"" + dateString
+                    + "\" does not correspond to format \"yyyy-MM-dd\"");
+        }
     }
 
     public int getYear() {

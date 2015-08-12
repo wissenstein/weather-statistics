@@ -53,6 +53,7 @@
                 </tbody>
             </table>
         </div>
+        <div><a href="weather-by-date"><fmt:message key="weatherByDate"/></a></div>
         <script src="${ctxPath}/resources/js/app/application.js" type="text/javascript"></script>
     </body>
 </html>

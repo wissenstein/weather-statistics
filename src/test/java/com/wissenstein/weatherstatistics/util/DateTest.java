@@ -49,4 +49,17 @@ public class DateTest {
 
         assertEquals(0, date1.compareTo(date2));
     }
+
+    @Test
+    public void parse() {
+        Date expectedDate = new Date(2015, 11, 8);
+        Date date = Date.parse("2015-11-08");
+
+        assertEquals(expectedDate, date);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseIllegalString() {
+        Date.parse("1234567890");
+    }
 }
