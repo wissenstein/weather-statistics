@@ -1,10 +1,24 @@
 package com.wissenstein.weatherstatistics.util;
 
+/**
+ * Simple custom class representing date which is not bound to any time zone
+ *
+ * @author Oleksij Lupandin
+ */
 public class Date {
 
     private int year;
     private int month;
     private int day;
+
+    public Date() {
+    }
+
+    public Date(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 
     public int getYear() {
         return year;
@@ -32,7 +46,7 @@ public class Date {
 
     @Override
     public String toString() {
-        return "Date{" + year + "-" + month + "-" + day + '}';
+        return String.format("%04d-%02d-%02d", year, month, day);
     }
 
     @Override
