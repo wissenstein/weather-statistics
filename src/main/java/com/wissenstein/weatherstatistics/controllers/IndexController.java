@@ -1,6 +1,6 @@
 package com.wissenstein.weatherstatistics.controllers;
 
-import com.wissenstein.weatherstatistics.domain.DailyStatistics;
+import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.persistence.WeatherRepository;
 import com.wissenstein.weatherstatistics.service.WeatherService;
 import java.io.IOException;
@@ -28,8 +28,8 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap model) {
-        final List<DailyStatistics> statistics
-                = mongo.findAll(DailyStatistics.class, "temperature");
+        final List<TemperatureByDate> statistics
+                = mongo.findAll(TemperatureByDate.class, "temperature");
 
         model.put("statistics", statistics);
 
@@ -45,10 +45,10 @@ public class IndexController {
             value = "/weather-from-service/{date}",
             method = RequestMethod.GET)
     @ResponseBody
-    public DailyStatistics getWeatherFromService(
+    public TemperatureByDate getWeatherFromService(
             @PathVariable("date") String dateString)
     throws IOException {
-        DailyStatistics temperatureByDate
+        TemperatureByDate temperatureByDate
                 = weatherRepository.getTemperatureByDate(dateString);
 
         if (temperatureByDate == null) {

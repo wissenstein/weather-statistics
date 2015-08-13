@@ -1,6 +1,6 @@
 package com.wissenstein.weatherstatistics.controllers;
 
-import com.wissenstein.weatherstatistics.domain.DailyStatistics;
+import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.persistence.WeatherRepository;
 import com.wissenstein.weatherstatistics.service.WeatherService;
 import com.wissenstein.weatherstatistics.util.Date;
@@ -28,16 +28,16 @@ public class IndexControllerTest {
 
     private static final String REQUESTED_DATE = "2015-08-02";
 
-    private DailyStatistics expectedTemperatureByDate;
+    private TemperatureByDate expectedTemperatureByDate;
 
     @Before
     public void setUp() {
-        expectedTemperatureByDate = new DailyStatistics();
+        expectedTemperatureByDate = new TemperatureByDate();
         expectedTemperatureByDate.setDate(Date.parse(REQUESTED_DATE));
-        expectedTemperatureByDate.setNightTemperature(16);
-        expectedTemperatureByDate.setMorningTemperature(15);
-        expectedTemperatureByDate.setDayTemperature(24);
-        expectedTemperatureByDate.setEveningTemperature(25);
+        expectedTemperatureByDate.setNight(16);
+        expectedTemperatureByDate.setMorning(15);
+        expectedTemperatureByDate.setMidday(24);
+        expectedTemperatureByDate.setEvening(25);
     }
 
     @Test
@@ -58,13 +58,18 @@ public class IndexControllerTest {
         when(weatherRepository.getTemperatureByDate(REQUESTED_DATE))
                 .thenReturn(expectedTemperatureByDate);
 
-        final DailyStatistics temperature
+        final TemperatureByDate temperature
                 = controller.getWeatherFromService(REQUESTED_DATE);
 
         assertEquals(expectedTemperatureByDate, temperature);
         verify(weatherService, never())
                 .getTemperatureByDate(anyString());
         verify(weatherRepository, never())
-                .insertTemperature(any(DailyStatistics.class));
+                .insertTemperature(any(TemperatureByDate.class));
+    }
+
+    @Test
+    public void getTemperatureByPeriod() {
+//        fail("Implement the test and the method.");
     }
 }

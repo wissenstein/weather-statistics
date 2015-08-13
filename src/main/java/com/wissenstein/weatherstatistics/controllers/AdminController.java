@@ -1,6 +1,6 @@
 package com.wissenstein.weatherstatistics.controllers;
 
-import com.wissenstein.weatherstatistics.domain.DailyStatistics;
+import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -24,12 +24,12 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String admin(ModelMap model) {
-        final List<DailyStatistics> statistics
-                = mongo.findAll(DailyStatistics.class, "temperature");
-        Collections.sort(statistics, new Comparator<DailyStatistics>() {
+        final List<TemperatureByDate> statistics
+                = mongo.findAll(TemperatureByDate.class, "temperature");
+        Collections.sort(statistics, new Comparator<TemperatureByDate>() {
 
             @Override
-            public int compare(DailyStatistics d1, DailyStatistics d2) {
+            public int compare(TemperatureByDate d1, TemperatureByDate d2) {
                 return d1.getDate().compareTo(d2.getDate());
             }
         });
@@ -50,7 +50,7 @@ public class AdminController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void saveDay(
-            @RequestBody DailyStatistics dailyStatistics) {
+            @RequestBody TemperatureByDate dailyStatistics) {
 
         mongo.save(dailyStatistics, "temperature");
     }

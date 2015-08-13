@@ -46,10 +46,10 @@
                         <c:forEach var="day" items="${statistics}">
                             <tr>
                                 <td>${day.date}</td>
-                                <td>${day.nightTemperature}</td>
-                                <td>${day.morningTemperature}</td>
-                                <td>${day.dayTemperature}</td>
-                                <td>${day.eveningTemperature}</td>
+                                <td>${day.night}</td>
+                                <td>${day.morning}</td>
+                                <td>${day.midday}</td>
+                                <td>${day.evening}</td>
                             </tr>
                         </c:forEach>
                         <form ng-submit="saveDay()">
@@ -64,25 +64,25 @@
                                 <td>
                                     <input type="number"
                                            name="night"
-                                           ng-model="day.nightTemperature"
+                                           ng-model="day.night"
                                            required="required" />
                                 </td>
                                 <td>
                                     <input type="number"
                                            name="morning"
-                                           ng-model="day.morningTemperature"
+                                           ng-model="day.morning"
                                            required="required" />
                                 </td>
                                 <td>
                                     <input type="number"
                                            name="midday"
-                                           ng-model="day.dayTemperature"
+                                           ng-model="day.midday"
                                            required="required" />
                                 </td>
                                 <td>
                                     <input type="number"
                                            name="enening"
-                                           ng-model="day.eveningTemperature"
+                                           ng-model="day.evening"
                                            required="required" />
                                 </td>
                             </tr>

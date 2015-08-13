@@ -54,10 +54,10 @@
                     <tbody>
                         <tr>
                             <td>{{day.dateString}}</td>
-                            <td>{{day.nightTemperature}}</td>
-                            <td>{{day.morningTemperature}}</td>
-                            <td>{{day.dayTemperature}}</td>
-                            <td>{{day.eveningTemperature}}</td>
+                            <td>{{day.night}}</td>
+                            <td>{{day.morning}}</td>
+                            <td>{{day.midday}}</td>
+                            <td>{{day.evening}}</td>
                         </tr>
                     </tbody>
                 </table>

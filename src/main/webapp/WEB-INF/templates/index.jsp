@@ -44,10 +44,10 @@
                     <c:forEach var="day" items="${statistics}">
                         <tr>
                             <td>${day.date}</td>
-                            <td>${day.nightTemperature}</td>
-                            <td>${day.morningTemperature}</td>
-                            <td>${day.dayTemperature}</td>
-                            <td>${day.eveningTemperature}</td>
+                            <td>${day.night}</td>
+                            <td>${day.morning}</td>
+                            <td>${day.midday}</td>
+                            <td>${day.evening}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

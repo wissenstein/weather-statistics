@@ -1,6 +1,6 @@
 package com.wissenstein.weatherstatistics.persistence;
 
-import com.wissenstein.weatherstatistics.domain.DailyStatistics;
+import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ public class WeatherRepository {
     @Autowired
     private MongoOperations mongo;
 
-    public DailyStatistics getTemperatureByDate(String date) {
-        final List<DailyStatistics> statistics
-                = mongo.findAll(DailyStatistics.class, "temperature");
+    public TemperatureByDate getTemperatureByDate(String date) {
+        final List<TemperatureByDate> statistics
+                = mongo.findAll(TemperatureByDate.class, "temperature");
 
         Date requestedDate = Date.parse(date);
-        DailyStatistics temperatureByDate = null;
-        for (DailyStatistics t : statistics) {
+        TemperatureByDate temperatureByDate = null;
+        for (TemperatureByDate t : statistics) {
             if (t.getDate().equals(requestedDate)) {
                 temperatureByDate = t;
             }
@@ -28,7 +28,7 @@ public class WeatherRepository {
         return temperatureByDate;
     }
 
-    public void insertTemperature(DailyStatistics temperature) {
+    public void insertTemperature(TemperatureByDate temperature) {
         mongo.insert(temperature, "temperature");
     }
 }

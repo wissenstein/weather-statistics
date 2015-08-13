@@ -1,7 +1,7 @@
 package com.wissenstein.weatherstatistics.service;
 
 import com.wissenstein.weatherstatistics.controllers.IndexControllerTest;
-import com.wissenstein.weatherstatistics.domain.DailyStatistics;
+import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.util.Date;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -63,13 +63,13 @@ public class WeatherServiceTest {
 
     @Test
     public void getTemperatureByDate() throws Exception {
-        DailyStatistics temperatureByDate
+        TemperatureByDate temperatureByDate
                 = service.getTemperatureByDate(REQUESTED_DATE);
 
-        assertEquals(16, temperatureByDate.getNightTemperature());
-        assertEquals(15, temperatureByDate.getMorningTemperature());
-        assertEquals(24, temperatureByDate.getDayTemperature());
-        assertEquals(25, temperatureByDate.getEveningTemperature());
+        assertEquals(16, temperatureByDate.getNight());
+        assertEquals(15, temperatureByDate.getMorning());
+        assertEquals(24, temperatureByDate.getMidday());
+        assertEquals(25, temperatureByDate.getEvening());
         assertEquals(Date.parse(REQUESTED_DATE), temperatureByDate.getDate());
     }
 }
