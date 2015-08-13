@@ -54,6 +54,7 @@
             </table>
         </div>
         <div><a href="weather-by-date"><fmt:message key="weatherByDate"/></a></div>
+        <div><a href="weather-by-period"><fmt:message key="weatherByPeriod"/></a></div>
         <script src="${ctxPath}/resources/js/app/application.js" type="text/javascript"></script>
     </body>
 </html>

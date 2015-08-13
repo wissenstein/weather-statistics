@@ -21,18 +21,22 @@
     </head>
     <body>
         <div><a href="${ctxPath}"><fmt:message key="home"/></a></div>
-        <h1><fmt:message key="weatherByDate"/></h1>
-        <div ng-controller="WeatherByDateController">
-            <form ng-submit="loadWeatherByDate()">
+        <h1><fmt:message key="weatherByPeriod"/></h1>
+        <div ng-controller="WeatherByPeriodController">
+            <form ng-submit="loadWeatherByPeriod()">
                 <div>
                     <input type="text"
-                           name="dateString"
+                           name="firstDateString"
                            placeholder="yyyy-MM-dd"
-                           ng-model="request.date" />
+                           ng-model="request.firstDate" />
+                    <input type="text"
+                           name="lastDateString"
+                           placeholder="yyyy-MM-dd"
+                           ng-model="request.lastDate" />
                     <input type="submit" value="<fmt:message key="submit"/>" />
                 </div>
             </form>
-            <div ng-show="day">
+            <div ng-show="period">
                 <table border="1" cellspacing="0">
                     <col style="width: 40%"/>
                     <col style="width: 15%"/>
@@ -52,7 +56,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr ng-repeat="day in period">
                             <td>{{day.dateString}}</td>
                             <td>{{day.night}}</td>
                             <td>{{day.morning}}</td>

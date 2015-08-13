@@ -6,8 +6,8 @@ import com.wissenstein.weatherstatistics.service.WeatherService;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class IndexController {
-
-    @Autowired
-    private MongoOperations mongo;
+public class MainController {
 
     @Autowired
     private WeatherRepository weatherRepository;
@@ -29,7 +26,7 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap model) {
         final List<TemperatureByDate> statistics
-                = mongo.findAll(TemperatureByDate.class, "temperature");
+                = weatherRepository.findAllTemperatures();
 
         model.put("statistics", statistics);
 
@@ -41,15 +38,16 @@ public class IndexController {
         return "weather-by-date";
     }
 
+    @Transactional
     @RequestMapping(
             value = "/weather-from-service/{date}",
             method = RequestMethod.GET)
     @ResponseBody
-    public TemperatureByDate getWeatherFromService(
+    public TemperatureByDate getWeatherForDate(
             @PathVariable("date") String dateString)
     throws IOException {
         TemperatureByDate temperatureByDate
-                = weatherRepository.getTemperatureByDate(dateString);
+                = weatherRepository.findTemperatureByDate(dateString);
 
         if (temperatureByDate == null) {
             temperatureByDate
@@ -59,5 +57,26 @@ public class IndexController {
         }
 
         return temperatureByDate;
+    }
+
+    @RequestMapping(value = "/weather-by-period", method = RequestMethod.GET)
+    public String weatherByPeriod() {
+        return "weather-by-period";
+    }
+
+    @Transactional
+    @RequestMapping(
+            value = "/weather-from-service/from/{firstDate}/to/{lastDate}",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public List<TemperatureByDate> getWeatherForPeriod(
+            @PathVariable("firstDate") String firstDateString,
+            @PathVariable("lastDate") String lastDateString)
+    throws IOException {
+        List<TemperatureByDate> temperatureByPeriod
+                = weatherRepository.findTemperatureByPeriod(
+                        firstDateString, lastDateString);
+
+        return temperatureByPeriod;
     }
 }

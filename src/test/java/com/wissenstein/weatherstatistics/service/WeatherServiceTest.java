@@ -1,6 +1,6 @@
 package com.wissenstein.weatherstatistics.service;
 
-import com.wissenstein.weatherstatistics.controllers.IndexControllerTest;
+import com.wissenstein.weatherstatistics.controllers.MainControllerTest;
 import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.util.Date;
 import java.io.BufferedReader;
@@ -38,7 +38,7 @@ public class WeatherServiceTest {
     public static void setUpClass() throws Exception {
         final StringBuilder weatherResponse = new StringBuilder();
 
-        try (final InputStream weatherResponseStream = IndexControllerTest
+        try (final InputStream weatherResponseStream = MainControllerTest
                 .class
                 .getResourceAsStream("/weather-service-response.html")) {
 

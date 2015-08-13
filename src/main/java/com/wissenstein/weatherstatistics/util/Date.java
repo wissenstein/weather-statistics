@@ -4,7 +4,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Simplistic custom class representing date which is not bound to any time zone
+ * Simplistic custom class representing date
+ * which is not bound to any time zone.
+ * <p>NOTE: this class is not protected
+ * against wrong month and day numbers yet!</p>
  *
  * @author Oleksij Lupandin
  */
