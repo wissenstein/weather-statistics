@@ -1,22 +1,21 @@
 package com.wissenstein.weatherstatistics.service;
 
-import com.wissenstein.weatherstatistics.controllers.IndexController;
 import org.jsoup.nodes.Document;
 
 import static org.junit.Assert.*;
 
-public class WeatherServiceIntegrationTest {
+public class WeatherWebRetrieverServiceIntegrationTest {
 
     public static void main(String[] args) throws Exception {
-        WeatherServiceIntegrationTest weatherService = new WeatherServiceIntegrationTest();
+        WeatherWebRetrieverServiceIntegrationTest test
+                = new WeatherWebRetrieverServiceIntegrationTest();
 
-        weatherService.run();
+        test.run();
     }
 
     public void run() throws Exception {
-        WeatherService service = new WeatherService();
-        Document document = service.getHtmlDocument(
-                IndexController.WEATHER_SERVICE_URL + "2015-08-01");
+        WeatherWebRetrieverService service = new WeatherWebRetrieverService();
+        Document document = service.getWeatherWebPage("2015-08-01");
 
         try {
             assertNotNull(
