@@ -4,7 +4,10 @@ import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.persistence.WeatherRepository;
 import com.wissenstein.weatherstatistics.service.WeatherService;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,9 +76,32 @@ public class MainController {
             @PathVariable("firstDate") String firstDateString,
             @PathVariable("lastDate") String lastDateString)
     throws IOException {
-        List<TemperatureByDate> temperatureByPeriod
+        Map<String, TemperatureByDate> temperatureMap
                 = weatherRepository.findTemperatureByPeriod(
                         firstDateString, lastDateString);
+
+        final DateTime firstDate = DateTime.parse(firstDateString);
+        final DateTime lastDate = DateTime.parse(lastDateString);
+        List<TemperatureByDate> temperatureByPeriod = new ArrayList<>();
+
+        DateTime currentDate = firstDate;
+        while (currentDate.isBefore(lastDate)
+                || currentDate.isEqual(lastDate)) {
+            
+            final String currentDateString
+                    = currentDate.toString("yyyy-MM-dd");
+            if (temperatureMap.containsKey(currentDateString)) {
+                temperatureByPeriod.add(temperatureMap.get(currentDateString));
+            } else {
+                final TemperatureByDate t = weatherService
+                        .getTemperatureByDate(currentDateString);
+                weatherRepository.insertTemperature(t);
+
+                temperatureByPeriod.add(t);
+            }
+
+            currentDate = currentDate.plusDays(1);
+        }
 
         return temperatureByPeriod;
     }

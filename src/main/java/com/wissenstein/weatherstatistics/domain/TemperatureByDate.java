@@ -1,6 +1,7 @@
 package com.wissenstein.weatherstatistics.domain;
 
 import com.wissenstein.weatherstatistics.util.Date;
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -73,5 +74,35 @@ public class TemperatureByDate {
                 + ", morningTemperature=" + morning
                 + ", dayTemperature=" + midday
                 + ", eveningTemperature=" + evening + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.date);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (getClass() != obj.getClass()) {
+            return false;
+        } else {
+            final TemperatureByDate other = (TemperatureByDate) obj;
+
+            if (this.date == null) {
+                if (other.date == null) {
+                    throw new IllegalArgumentException(
+                            "Attempt to compare two " + getClass()
+                            + " instances with null ID.");
+                } else {
+                    return false;
+                }
+            } else {
+                return this.date.equals(other.date);
+            }
+        }
     }
 }

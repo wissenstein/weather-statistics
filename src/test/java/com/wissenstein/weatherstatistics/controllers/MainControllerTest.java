@@ -4,8 +4,10 @@ import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.persistence.WeatherRepository;
 import com.wissenstein.weatherstatistics.service.WeatherService;
 import com.wissenstein.weatherstatistics.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +37,7 @@ public class MainControllerTest {
 
     private TemperatureByDate expectedTemperatureByDate;
     private List<TemperatureByDate> expectedTemperatureByPeriod;
+    private Map<String, TemperatureByDate> temperatureByPeriodFromDatabase;
 
     @Before
     public void setUp() {
@@ -45,6 +48,7 @@ public class MainControllerTest {
         expectedTemperatureByDate.setMidday(24);
         expectedTemperatureByDate.setEvening(25);
 
+        temperatureByPeriodFromDatabase = new HashMap<>();
         expectedTemperatureByPeriod = new LinkedList<>();
 
         final DateTime firstDate = DateTime.parse(FIRST_DATE);
@@ -58,21 +62,25 @@ public class MainControllerTest {
         while (currentDate.isBefore(lastDate)
                 || currentDate.isEqual(lastDate)) {
 
+            final String currentDateString
+                    = currentDate.toString("yyyy-MM-dd");
+
             TemperatureByDate currentTemp = new TemperatureByDate();
-            currentTemp.setDate(
-                    Date.parse(currentDate.toString("yyyy-MM-dd")));
+            currentTemp.setDate(Date.parse(currentDateString));
             currentTemp.setNight(atNight ++);
             currentTemp.setMorning(inMorning++);
             currentTemp.setMidday(atMidday++);
             currentTemp.setEvening(inEvening++);
 
+            temperatureByPeriodFromDatabase
+                    .put(currentDateString, currentTemp);
             expectedTemperatureByPeriod.add(currentTemp);
 
             currentDate = currentDate.plusDays(1);
         }
 
         when(weatherRepository.findTemperatureByPeriod(FIRST_DATE, LAST_DATE))
-                .thenReturn(expectedTemperatureByPeriod);
+                .thenReturn(temperatureByPeriodFromDatabase);
     }
 
     @Test
@@ -108,6 +116,18 @@ public class MainControllerTest {
         final List<TemperatureByDate> weatherForPeriod
                 = controller.getWeatherForPeriod(FIRST_DATE, LAST_DATE);
 
-        assertEquals(expectedTemperatureByPeriod, weatherForPeriod);
+        assertArrayEquals(
+                expectedTemperatureByPeriod.toArray(new TemperatureByDate[0]),
+                weatherForPeriod.toArray(new TemperatureByDate[0]));
+    }
+
+    @Test
+    public void getWeatherForPeriodWhenNotFoundInDatabase() throws Exception {
+        temperatureByPeriodFromDatabase.remove(LAST_DATE);
+
+        final List<TemperatureByDate> weatherForPeriod
+                = controller.getWeatherForPeriod(FIRST_DATE, LAST_DATE);
+
+        verify(weatherService).getTemperatureByDate(LAST_DATE);
     }
 }
