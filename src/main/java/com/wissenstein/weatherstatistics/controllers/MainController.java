@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * A simple site to display air temperature in Kharkiv at midnight,
+ * in the morning, at midday and in the evening on a day chosen by a user.
+ */
 @Controller
 public class MainController {
 
@@ -41,6 +45,7 @@ public class MainController {
         return "weather-by-date";
     }
 
+    // TODO Add date validation
     @Transactional
     @RequestMapping(
             value = "/weather-from-service/{date}",
@@ -67,6 +72,7 @@ public class MainController {
         return "weather-by-period";
     }
 
+    // TODO Add date validation
     @Transactional
     @RequestMapping(
             value = "/weather-from-service/from/{firstDate}/to/{lastDate}",
@@ -87,7 +93,7 @@ public class MainController {
         DateTime currentDate = firstDate;
         while (currentDate.isBefore(lastDate)
                 || currentDate.isEqual(lastDate)) {
-            
+
             final String currentDateString
                     = currentDate.toString("yyyy-MM-dd");
             if (temperatureMap.containsKey(currentDateString)) {

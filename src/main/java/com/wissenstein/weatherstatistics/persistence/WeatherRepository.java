@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+// TODO Implement selecting statistics by period on database side
 @Repository
 public class WeatherRepository {
 
