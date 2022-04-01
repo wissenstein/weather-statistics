@@ -19,7 +19,7 @@ public class Config extends WebMvcConfigurerAdapter {
 
     @Bean
     public ViewResolver setUpViewResolver() {
-        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+        final UrlBasedViewResolver resolver = new UrlBasedViewResolver();
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);
@@ -28,14 +28,14 @@ public class Config extends WebMvcConfigurerAdapter {
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/WEB-INF/resources/*");
     }
 
     @Bean
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource
+        final ResourceBundleMessageSource messageSource
                 = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
 

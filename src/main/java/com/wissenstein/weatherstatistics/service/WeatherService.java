@@ -1,9 +1,10 @@
 package com.wissenstein.weatherstatistics.service;
 
 import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
-import com.wissenstein.weatherstatistics.util.Date;
 import com.wissenstein.weatherstatistics.util.Strings;
 import java.io.IOException;
+import java.time.LocalDate;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +13,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherService {
 
-    @Autowired
-    private WeatherWebRetrieverService weatherWebRetrieverService;
+    private final WeatherWebRetrieverService weatherWebRetrieverService;
 
-    public TemperatureByDate getTemperatureByDate(String dateString)
+    @Autowired
+    public WeatherService(final WeatherWebRetrieverService weatherWebRetrieverService) {
+        this.weatherWebRetrieverService = weatherWebRetrieverService;
+    }
+
+    public TemperatureByDate getTemperatureByDate(final String dateString)
     throws IOException {
         final Document document
                 = weatherWebRetrieverService.getWeatherWebPage(dateString);
 
-        TemperatureByDate statistics = new TemperatureByDate();
-        statistics.setDate(Date.parse(dateString));
+        final TemperatureByDate statistics = new TemperatureByDate();
+        statistics.setDate(LocalDate.parse(dateString));
 
         for (final Element temperature
                 : document.getElementsByClass("temperature")) {

@@ -12,8 +12,8 @@ public class WeatherWebRetrieverService {
             + "%D0%BF%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0-"
             + "%D1%85%D0%B0%D1%80%D1%8C%D0%BA%D0%BE%D0%B2/";
 
-    public Document getWeatherWebPage(String dateString) throws IOException {
-        String url = WEATHER_SERVICE_URL + dateString;
+    public Document getWeatherWebPage(final String dateString) throws IOException {
+        final String url = WEATHER_SERVICE_URL + dateString;
 
         return Jsoup.connect(url).get();
     }

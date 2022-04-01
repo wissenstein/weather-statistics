@@ -4,10 +4,11 @@ import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
 import com.wissenstein.weatherstatistics.persistence.WeatherRepository;
 import com.wissenstein.weatherstatistics.service.WeatherService;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +25,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 
-    @Autowired
-    private WeatherRepository weatherRepository;
+    private final WeatherRepository weatherRepository;
+
+    private final WeatherService weatherService;
 
     @Autowired
-    private WeatherService weatherService;
+    public MainController(final WeatherRepository weatherRepository, final WeatherService weatherService) {
+        this.weatherRepository = weatherRepository;
+        this.weatherService = weatherService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model) {
+    public String index(final ModelMap model) {
         final List<TemperatureByDate> statistics
                 = weatherRepository.findAllTemperatures();
 
@@ -52,7 +57,7 @@ public class MainController {
             method = RequestMethod.GET)
     @ResponseBody
     public TemperatureByDate getWeatherForDate(
-            @PathVariable("date") String dateString)
+            @PathVariable("date") final String dateString)
     throws IOException {
         TemperatureByDate temperatureByDate
                 = weatherRepository.findTemperatureByDate(dateString);
@@ -79,23 +84,23 @@ public class MainController {
             method = RequestMethod.GET)
     @ResponseBody
     public List<TemperatureByDate> getWeatherForPeriod(
-            @PathVariable("firstDate") String firstDateString,
-            @PathVariable("lastDate") String lastDateString)
+            @PathVariable("firstDate") final String firstDateString,
+            @PathVariable("lastDate") final String lastDateString)
     throws IOException {
-        Map<String, TemperatureByDate> temperatureMap
+        final Map<String, TemperatureByDate> temperatureMap
                 = weatherRepository.findTemperatureByPeriod(
                         firstDateString, lastDateString);
 
-        final DateTime firstDate = DateTime.parse(firstDateString);
-        final DateTime lastDate = DateTime.parse(lastDateString);
-        List<TemperatureByDate> temperatureByPeriod = new ArrayList<>();
+        final LocalDate firstDate = LocalDate.parse(firstDateString);
+        final LocalDate lastDate = LocalDate.parse(lastDateString);
+        final List<TemperatureByDate> temperatureByPeriod = new ArrayList<>();
 
-        DateTime currentDate = firstDate;
+        LocalDate currentDate = firstDate;
         while (currentDate.isBefore(lastDate)
                 || currentDate.isEqual(lastDate)) {
 
             final String currentDateString
-                    = currentDate.toString("yyyy-MM-dd");
+                    = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             if (temperatureMap.containsKey(currentDateString)) {
                 temperatureByPeriod.add(temperatureMap.get(currentDateString));
             } else {

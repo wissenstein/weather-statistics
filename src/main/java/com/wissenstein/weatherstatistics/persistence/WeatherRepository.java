@@ -1,11 +1,10 @@
 package com.wissenstein.weatherstatistics.persistence;
 
 import com.wissenstein.weatherstatistics.domain.TemperatureByDate;
-import com.wissenstein.weatherstatistics.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.time.LocalDate;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -17,47 +16,48 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class WeatherRepository {
 
-    @Autowired
-    private MongoOperations mongo;
+    private final MongoOperations mongo;
 
     private static final String COL_TEMPERATURE = "temperature";
 
+    @Autowired
+    public WeatherRepository(final MongoOperations mongo) {
+        this.mongo = mongo;
+    }
+
     public List<TemperatureByDate> findAllTemperatures() {
-        Query query = new Query()
-                .with(new Sort(Sort.Direction.ASC,
+        final Query query = new Query()
+                .with(Sort.by(Sort.Direction.ASC,
                         "date.year", "date.month", "date.day"));
 
         return mongo.find(query, TemperatureByDate.class, COL_TEMPERATURE);
     }
 
-    public TemperatureByDate findTemperatureByDate(String date) {
-        Query query = new Query();
-        Date requestedDate = Date.parse(date);
+    public TemperatureByDate findTemperatureByDate(final String date) {
+        final Query query = new Query();
+        final LocalDate requestedDate = LocalDate.parse(date);
 
         query.addCriteria(Criteria
                 .where("date.year").is(requestedDate.getYear())
                 .and("date.month").is(requestedDate.getMonth())
-                .and("date.day").is(requestedDate.getDay()));
+                .and("date.day").is(requestedDate.getDayOfMonth()));
 
-        TemperatureByDate temperatureByDate = mongo
-                .findOne(query, TemperatureByDate.class, COL_TEMPERATURE);
-
-        return temperatureByDate;
+        return mongo.findOne(query, TemperatureByDate.class, COL_TEMPERATURE);
     }
 
-    public void insertTemperature(TemperatureByDate temperature) {
+    public void insertTemperature(final TemperatureByDate temperature) {
         mongo.insert(temperature, COL_TEMPERATURE);
     }
 
     public Map<String, TemperatureByDate> findTemperatureByPeriod(
-            String firstDateString, String lastDateString) {
+            final String firstDateString, final String lastDateString) {
 
-        Query query = new Query()
-                .with(new Sort(Sort.Direction.ASC,
+        final Query query = new Query()
+                .with(Sort.by(Sort.Direction.ASC,
                         "date.year", "date.month", "date.day"));
 
-        final Date firstDate = Date.parse(firstDateString);
-        final Date lastDate = Date.parse(lastDateString);
+        final LocalDate firstDate = LocalDate.parse(firstDateString);
+        final LocalDate lastDate = LocalDate.parse(lastDateString);
 
         final List<TemperatureByDate> temperature
                 = mongo.find(query, TemperatureByDate.class, COL_TEMPERATURE);
@@ -69,17 +69,19 @@ public class WeatherRepository {
                 = temperature.iterator();
         while (tempIterator.hasNext()) {
             final TemperatureByDate t = tempIterator.next();
-            if (t.getDate().compareTo(firstDate) >= 0) {
-                if (t.getDate().compareTo(lastDate) <= 0) {
-                    temperatureByPeriod.put(t.getDate().toString(), t);
+            final LocalDate date = t.getDate();
+            if (!date.isBefore(firstDate)) {
+                if (!date.isAfter(lastDate)) {
+                    temperatureByPeriod.put(date.toString(), t);
                 }
                 break;
             }
         }
         while (tempIterator.hasNext()) {
             final TemperatureByDate t = tempIterator.next();
-            if (t.getDate().compareTo(lastDate) <= 0) {
-                temperatureByPeriod.put(t.getDate().toString(), t);
+            final LocalDate date = t.getDate();
+            if (!date.isAfter(lastDate)) {
+                temperatureByPeriod.put(date.toString(), t);
             } else {
                 break;
             }

@@ -5,11 +5,11 @@ import java.util.regex.Pattern;
 
 public class Strings {
 
-    public static final String TEMPERATURE_PATTERN = "^[\\+\\-]?\\d{1,2}°$";
+    public static final String TEMPERATURE_PATTERN = "^[+\\-]?\\d{1,2}°$";
 
-    public static int parseTemperature(String tempString) {
-        Pattern tempPattern = Pattern.compile(TEMPERATURE_PATTERN);
-        Matcher tempMatcher = tempPattern.matcher(tempString);
+    public static int parseTemperature(final String tempString) {
+        final Pattern tempPattern = Pattern.compile(TEMPERATURE_PATTERN);
+        final Matcher tempMatcher = tempPattern.matcher(tempString);
         if (tempMatcher.find()) {
             final int finalIndex = tempString.length() - 1;
 

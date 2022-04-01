@@ -1,6 +1,6 @@
 package com.wissenstein.weatherstatistics.domain;
 
-import com.wissenstein.weatherstatistics.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +11,7 @@ public class TemperatureByDate {
     @Id
     private String id;
 
-    private Date date;
+    private LocalDate date;
     private int night;
     private int morning;
     private int midday;
@@ -21,15 +21,15 @@ public class TemperatureByDate {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(final LocalDate date) {
         this.date = date;
     }
 
@@ -38,14 +38,14 @@ public class TemperatureByDate {
         return night;
     }
 
-    public void setNight(int night) {
+    public void setNight(final int night) {
         this.night = night;
     }
     public int getMorning() {
         return morning;
     }
 
-    public void setMorning(int morning) {
+    public void setMorning(final int morning) {
         this.morning = morning;
     }
 
@@ -53,7 +53,7 @@ public class TemperatureByDate {
         return midday;
     }
 
-    public void setMidday(int midday) {
+    public void setMidday(final int midday) {
         this.midday = midday;
     }
 
@@ -61,7 +61,7 @@ public class TemperatureByDate {
         return evening;
     }
 
-    public void setEvening(int evening) {
+    public void setEvening(final int evening) {
         this.evening = evening;
     }
 
@@ -84,7 +84,7 @@ public class TemperatureByDate {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         } else if (getClass() != obj.getClass()) {
